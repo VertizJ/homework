@@ -5,9 +5,6 @@
 # Hint: use the slice operator
 
 dna = 'ATAGCGAATATCTCTCATGAGAGGGAA'
-for position in range(0, len(dna), 3):
-	codon = dna[position:position+3]
-	print(codon)
 
 
 """

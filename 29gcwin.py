@@ -14,18 +14,9 @@
 seq = 'ACGACGCAGGAGGAGAGTTTCAGAGATCACGAATACATCCATATTACCCAGAGAGAG'
 w = 11
 
-for i in range(len(seq) - w + 1):	
-	dna = seq[i:i+w]
-	gc = 0
-	for nt in dna:
-		if nt =='G' or nt == 'C':
-			gc += 1
-	print(f'{i} {dna} {gc/w:.4f}')
-	
-	
 
 """
-python3 26gcwin.py
+python3 29gcwin.py
 0 ACGACGCAGGA 0.6364
 1 CGACGCAGGAG 0.7273
 2 GACGCAGGAGG 0.7273

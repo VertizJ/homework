@@ -4,16 +4,10 @@
 # AC is the same as CA
 # Skip AA, CC etc.
 # Also print out how many combinations there are
-# !!!!Use the range operator
+
 # Hint: if you get stuck for more than 10 minutes, get help
 
-aa = 'ACDEFGHIKLMNPQRSTVWY'
-count = 0
-for i in range(len(aa)):
-	for j in range (i+1,len(aa)):
-		print(aa[i],aa[j])
-		count +=1
-print(count)
+
 """
 python3 28aapairs.py
 A C

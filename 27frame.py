@@ -8,8 +8,7 @@
 
 dna = 'ATGGCCTTT'
 
-for i in range(0, len(dna)):
-	print(i, i%3, dna[i])
+
 """
 python3 27frame.py
 0 0 A
