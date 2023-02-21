@@ -9,7 +9,32 @@
 # Variation: use 20 named variables
 # Variation: use a list
 
-
+import sys
+import gzip
+"""
+A = 0
+C = 0
+"""
+aas = 'ACDEFGHIKLMNPQRSTVWY'
+total = 0
+caa = [0] * len(aas)
+# pre-processing 
+with gzip.open(sys.argv[1],'rt') as fp:
+	for line in fp.readlines():	
+		line = line.rstrip()# gets rid of the spaces at the ends of lines
+		if line.startswith('>'): continue
+		# this is where the work is happening 
+		total += len(line)
+		for i in range(len(aas)):
+			aa = aas[i]
+			caa[i] += line.count(aa)
+for j in range(len(aas)):
+	print(f'{aas[j]} {caa[j]} {caa[j]/sum(caa):.4f}')
+			
+			#A += line.count('A')
+			#C += line.count('C')
+#print(A, C, A/total, C/total)
+		
 """
 python3 40aacomp.py ~/DATA/E.coli/GCF_000005845.2_ASM584v2_protein.faa.gz
 A 126893 0.0954
