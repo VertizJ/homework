@@ -20,6 +20,37 @@
 # Hint: create a function for KD calculation
 # Hint: create a function for hydrophobic alpha-helix
 # Hint: use the same function for both signal peptide and transmembrane
+import sys
+import mcb185
+import math
+
+
+
+def ave_hydro(window):
+	hydro = 0
+	
+	aas = 'ACDEFGHIKLMNPQRSTVWY'
+	aas_val = [1.8, 2.5, -3.5, -3.5, 2.8, -0.4, -3.2, 4.5, -3.9, 3.8, 1.9, -3.5, -1.6, -3.5, -4.5, -0.8, -0.7, 4.2, -0.9, -1.3]
+	for aa in range(len(window)):
+		hydro += aas_val[aas.find(window[aa])]
+	return hydro/len(window)
+
+def hydro_region(seq, w, t):
+	signal = False
+	for i in range(len(seq) - w + 1):
+		win = seq[i:i + w]
+		
+		if 'P' in win: continue
+		elif ave_hydro(win) < t: continue
+		else: 
+			return True
+	return False
+
+for defline, seq in mcb185.read_fasta(sys.argv[1]):
+	words = defline.split()
+	name = words[0]
+	if hydro_region(seq[0:30], 8, 2.5) and hydro_region(seq[30:], 11, 2.0):
+		print(defline)
 
 
 """
