@@ -15,6 +15,67 @@
 
 # Hint: make a smaller file for testing (e.g. e.coli.fna in the CLI below)
 
+import mcb185
+import math
+import sys
+import argparse
+
+"""
+wsize = int(sys.argv[2])
+ethresh = float(sys.argv[3])
+"""
+parser = argparse.ArgumentParser(description= 'Nucleotide Entropy Filter')
+parser.add_argument('file', type=str, metavar='<path>', help = 'fasta file')
+parser.add_argument('-w', required = False, type = int, default = 11, metavar = '<int>', help = 'optional integer argument [%(default)i]')
+parser.add_argument('-t', required = False, type = float, default = 1.4, metavar = '<float>', help = 'optional float argument [%(default).3f]')
+parser.add_argument('-s', action = 'store_true', help = 'lowercase masking')
+arg = parser.parse_args()
+
+def entropy(vals):
+	assert(math.isclose(1.0,sum(vals)))
+	h = 0
+	for p in vals:
+		if p != 0: h -= p * math.log2(p)
+	return h
+	
+def seqentropy(seq):
+	A = seq.count('A')/len(seq)
+	C = seq.count('C')/len(seq)
+	T = seq.count('T')/len(seq)
+	G = seq.count('G')/len(seq)
+	return entropy([A, C, G, T])
+
+file = arg.file
+window = arg.w
+threshhold = arg.t
+
+for name, seq in mcb185.read_fasta(file):
+	seq = seq.upper()
+	seqlist = list(seq)
+	for i in range(len(seq)-window+1):
+		win = seq[i:i+window]
+		if seqentropy(win) < arg.t:
+			for k in range(i,i+arg.w):
+				if arg.s:
+					seqlist[k] = seq[k].lower()
+				else:
+					seqlist[k] = 'N'
+	seq = ''.join(seqlist)
+	print(f'>{name}')
+	for i in range(0, len(seq),60):
+		print (seq[i: i+60])
+		
+"""
+for name, seq in mcb185.read_fasta(sys.argv[1]):
+	seql = list(seq)
+	for i in range(len(seq)-wsize+1):
+		if seqentropy(seq[i:i+wsize]) < ethresh: seql[i] = 'N'
+	seq = ''.join(seql)
+print(seq)
+
+
+"""
+
 
 """
 python3 50dust.py -w 11 -t 1.4 -s e.coli.fna  | head
