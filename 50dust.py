@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # 50dust.py
 
 # Write a better version of your 42dust.py program
@@ -24,6 +25,8 @@ import argparse
 wsize = int(sys.argv[2])
 ethresh = float(sys.argv[3])
 """
+
+
 parser = argparse.ArgumentParser(description= 'Nucleotide Entropy Filter')
 parser.add_argument('file', type=str, metavar='<path>', help = 'fasta file')
 parser.add_argument('-w', required = False, type = int, default = 11, metavar = '<int>', help = 'optional integer argument [%(default)i]')
